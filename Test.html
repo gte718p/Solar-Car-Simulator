@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Texas Motor Speedway Simulator Control lines</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 90%;
+      }
+      #current{
+       height: 10%;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="current"></div>
+    <div id="List"></div>
+    <script> 
+
+        var A= [];
+        var B=[];
+        var C=[];
+
+function initMap() {
+        var myLatlng = {lat: 33.036998, lng: -97.281323};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 17,
+          center: myLatlng,
+          mapTypeId: 'satellite'
+        });
+        
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          draggable: true,
+          title: 'Click to zoom'
+        });
+
+        
+        google.maps.event.addListener(marker, 'dragend', function (evt) {
+        document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';
+        });
+        
+        google.maps.event.addListener(marker, 'click', function (evt) {
+        for (j = 0; j < locations.length; j++) {
+             for (j = 0; j < locations.length; j++) {
+            E=A[j].getPosition();
+            F=B[j].getPosition();
+            G=E.lat().toFixed(5) +', '+ E.lng().toFixed(5) + ', ' + F.lat().toFixed(5) + ', ' + F.lng().toFixed(5) +'<br>' ; 
+            
+            C.push(G);       
+            }
+
+        document.getElementById('current').innerHTML = C;
+        }
+        
+        
+        });
+
+        
+        
+    var locations = [[33.03892, -97.28329, 33.03901, -97.28347],[33.03845, -97.28370, 33.03851, -97.28389],[33.03753, -97.28406, 33.03755, -97.28425],[33.03623, -97.28449, 33.03625, -97.28469],[33.03597, -97.28451, 33.03599, -97.28468],[33.03532, -97.28444, 33.03529, -97.28463],[33.03502, -97.28421, 33.03501, -97.28460],[33.03428, -97.28416, 33.03424, -97.28443],[33.03401, -97.28410, 33.03396, -97.28428],[33.03349, -97.28377, 33.03341, -97.28396],[33.03312, -97.28336, 33.03296, -97.28348],[33.03278, -97.28266, 33.03265, -97.28274],[33.03276, -97.28190, 33.03260, -97.28188],[33.03288, -97.28129, 33.03275, -97.28114],[33.03325, -97.28065, 33.03314, -97.28044],[33.03374, -97.28012, 33.03368, -97.27986],[33.03437, -97.27976, 33.03433, -97.27953],[33.03633, -97.27912, 33.03631, -97.27889],[33.03778, -97.27862, 33.03772, -97.27840],[33.03851, -97.27852, 33.03851, -97.27836],[33.03908, -97.27863, 33.03919, -97.27847],[33.03957, -97.27884, 33.03968, -97.27870],[33.03989, -97.27914, 33.04002, -97.27899],[33.04024, -97.27961, 33.04038, -97.27954],[33.04044, -97.28030, 33.04060, -97.28026],[33.04047, -97.28093, 33.04061, -97.28097],[33.04042, -97.28129, 33.04056, -97.28135],[33.04028, -97.28171, 33.04036, -97.28183],[33.04007, -97.28208, 33.04017, -97.28221],[33.03985, -97.28231, 33.03997, -97.28252],[33.03951, -97.28260, 33.03965, -97.28289],]; 
+     var marker, controlline, poly, poly1, i, j;
+
+    for (i = 0; i < locations.length; i++) {
+        var markerA = makemarker(locations[i][0], locations[i][1],'A',i, map);
+        A.push(markerA);
+        var markerB = makemarker(locations[i][2], locations[i][3],'B',i, map);
+        B.push(markerB);
+
+
+     
+      
+    }
+    for (j = 0; j < locations.length; j++) {
+
+        var flightPath = new google.maps.Polyline({
+          path: [new google.maps.LatLng(locations[j][0], locations[j][1]),new google.maps.LatLng(locations[j][2], locations[j][3])],
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+        };
+      }
+      
+
+function makemarker(Lat, Lng,tag, i, map){
+
+     var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(Lat,Lng),
+        map: map,
+        draggable: true,
+        label: tag,
+        title: String(i)
+      });
+    
+    google.maps.event.addListener(marker, 'dragend', function (evt) {
+    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br> Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';
+        updatemarker(marker, evt);
+        });
+    google.maps.event.addListener(marker, 'click', function (evt) {
+    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br>Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';   
+        });
+    
+    return marker;   
+}
+
+function updatemarker(marker, evt){
+    var markernumber=parseInt(marker.title);
+    var markertype=marker.label;
+
+
+    if(markertype =='A')
+        {
+        A[markernumber].setPosition(evt.latlng());
+        };
+     if(markertype == 'B'){
+        B[markernumber].setPosition(evt.latlng());
+        };
+    }
+
+
+
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZBP_xUomSDxJ207tr-pzGq_lGKN6ZMm8&callback=initMap">
+    </script>
+  </body>
+</html>    
+
+
