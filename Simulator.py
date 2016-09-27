@@ -254,7 +254,7 @@ def main():
         timeflag +=Timeinterval
         if (timeflag == RecordInterval):
             outputstring=CarTime.strftime("%a %b %H:%M:%S %Z")
-            print("d90e5bc9f95dc7eb, ",outputstring,Car.location.latitude,Car.location.longitude , "STOPPED, Cristian Almendariz, 8 Walnut, 6.0,", Car.speed,",",Car.waypointbearing, file=Log)
+            print("d90e5bc9f95dc7eb, %s, %s, %s, STOPPED, Cristian Almendariz, 8 Walnut, 6.0, %s, %s"%(outputstring, Car.location.latitude, Car.location.longitude, Car.speed, Car.waypointbearing),  file=Log)
             print("%s, %s"%(Car.location.latitude,Car.location.longitude) ,file=GPS)
             timeflag=0
         
