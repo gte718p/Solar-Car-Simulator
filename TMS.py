@@ -67,7 +67,7 @@ function initMap() {
 
         
         google.maps.event.addListener(marker, 'dragend', function (evt) {
-        document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';
+        document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(8) + ' Current Lng: ' + evt.latLng.lng().toFixed(8) + '</p>';
         });
         
         google.maps.event.addListener(marker, 'click', function (evt) {
@@ -75,7 +75,7 @@ function initMap() {
              for (j = 0; j < locations.length; j++) {
             E=A[j].getPosition();
             F=B[j].getPosition();
-            G=E.lat().toFixed(5) +', '+ E.lng().toFixed(5) + ', ' + F.lat().toFixed(5) + ', ' + F.lng().toFixed(5) +'<br>' ; 
+            G=E.lat().toFixed(8) +', '+ E.lng().toFixed(8) + ', ' + F.lat().toFixed(8) + ', ' + F.lng().toFixed(8) +'<br>' ; 
             
             C.push(G);       
             }
@@ -131,6 +131,48 @@ Footer = """
 
         flightPath.setMap(map);
         };
+                var controlpoint={
+    start:{
+    center: {lat:33.03490233 , lng: -97.28442632},
+    radius: 50
+    },
+    lappoint:{
+    center: {lat: 33.03880806, lng: -97.28352778},
+    radius: 25
+    },
+    trappoint:{
+    center: {lat:33.03790 , lng: -97.28286},
+    radius: 20
+    },
+    driverchange:{
+    center: {lat:33.03769055, lng: -97.28342853},
+    radius: 20
+    }
+    };
+
+for (var point in controlpoint) {
+    // Add the circle for this city to the map.
+    var controlcirc = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: controlpoint[point].center,
+      radius: controlpoint[point].radius
+    });
+  }
+
+
+
+      
+      
+      
+      
+      
+      
+      
       }
       
 
@@ -145,11 +187,11 @@ function makemarker(Lat, Lng,tag, i, map){
       });
     
     google.maps.event.addListener(marker, 'dragend', function (evt) {
-    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br> Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';
+    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br> Current Lat: ' + evt.latLng.lat().toFixed(8) + ' Current Lng: ' + evt.latLng.lng().toFixed(8) + '</p>';
         updatemarker(marker, evt);
         });
     google.maps.event.addListener(marker, 'click', function (evt) {
-    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br>Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';   
+    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br>Current Lat: ' + evt.latLng.lat().toFixed(8) + ' Current Lng: ' + evt.latLng.lng().toFixed(8) + '</p>';   
         });
     
     return marker;   
