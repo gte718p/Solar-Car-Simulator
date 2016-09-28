@@ -69,13 +69,14 @@ def main():
     EnterHotPit=[[33.03925, -97.28287],[33.03807, -97.28330],[33.03744, -97.28346]]
     CarTime=datetime.datetime(2016, 6,1,8,0,0)
     Timeinterval=.25
-    MaxSpeed=20
+    MaxSpeed=18
     MinSpeed=5
     timeflag=0
-    RecordInterval=5
+    RecordInterval=2
     Breakdown=0
     Pits=0
     TimeinPits=datetime.timedelta(minutes=0)
+    Logsumary=[]
     
     laps=0
     
@@ -102,27 +103,27 @@ def main():
         
         
         if (Car.state == 3):  #car leaving pits
-             #find the waypoint
-             Waypoint=geo.Location(LeavePit[Car.nextwaypoint][0],LeavePit[Car.nextwaypoint][1])
-             Car.waypointbearing=Bearing(Waypoint,Car.location)
+            #find the waypoint
+            Waypoint=geo.Location(LeavePit[Car.nextwaypoint][0],LeavePit[Car.nextwaypoint][1])
+            Car.waypointbearing=Bearing(Waypoint,Car.location)
              
-             #move to waypoint
-             Offset=geo.LocationDelta(-Car.speed*Timeinterval,Car.waypointbearing)
-             Car.location.move(Offset)
+            #move to waypoint
+            Offset=geo.LocationDelta(-Car.speed*Timeinterval,Car.waypointbearing)
+            Car.location.move(Offset)
              
         
              
-             #check distance and update waypoint if needed.
-             Distancetonextwaypoint=Car.location.distance_2d(Waypoint)
+            #check distance and update waypoint if needed.
+            Distancetonextwaypoint=Car.location.distance_2d(Waypoint)
                     
              
-             if Car.nextwaypoint < (len(LeavePit)-1):
+            if Car.nextwaypoint < (len(LeavePit)-1):
                 #get location from array and turn into a location object
                 Waypoint=geo.Location(LeavePit[Car.nextwaypoint][0],LeavePit[Car.nextwaypoint][1])
                 Distancetonextwaypoint=Car.location.distance_2d(Waypoint)
                 if (Distancetonextwaypoint < Car.speed*Timeinterval):
                     Car.nextwaypoint += 1
-             else:
+            else:
                 Car.nextwaypoint=Entertrackwaypoint
                 Car.state = 1
                 tempa, tempb =AimPoint(TrackPoints[Car.nextwaypoint][0],TrackPoints[Car.nextwaypoint][1],TrackPoints[Car.nextwaypoint][2],TrackPoints[Car.nextwaypoint][3])
@@ -147,6 +148,7 @@ def main():
                     Car.nextwaypoint=0
                     Car.speed=random.randrange(MinSpeed,MaxSpeed,1);
                     laps +=1
+                    Logsumary.append([laps, CarTime])
                     tempa, tempb =AimPoint(TrackPoints[Car.nextwaypoint][0],TrackPoints[Car.nextwaypoint][1],TrackPoints[Car.nextwaypoint][2],TrackPoints[Car.nextwaypoint][3])
                     Waypoint=geo.Location(tempa,tempb)
                     Car.waypointbearing=Bearing(Waypoint,Car.location)
@@ -238,6 +240,8 @@ def main():
                         #set the car to inpits and set an amount of time for it to wait
                         Car.state=4
                         Pits +=1
+                        laps +=1
+                        Logsumary.append([laps, CarTime])
                         Waittime=random.randrange(5, 8, 1)
                         TimeinPits=TimeinPits+datetime.timedelta(minutes=Waittime) 
                         Restarttime=CarTime+datetime.timedelta(minutes=Waittime)
@@ -253,7 +257,7 @@ def main():
         
         timeflag +=Timeinterval
         if (timeflag == RecordInterval):
-            outputstring=CarTime.strftime("%a %b %H:%M:%S %Z")
+            outputstring=CarTime.strftime("%a %b %H:%M:%S %Y")
             print("d90e5bc9f95dc7eb, %s, %s, %s, STOPPED, Cristian Almendariz, 8 Walnut, 6.0, %s, %s"%(outputstring, Car.location.latitude, Car.location.longitude, Car.speed, Car.waypointbearing),  file=Log)
             print("%s, %s"%(Car.location.latitude,Car.location.longitude) ,file=GPS)
             timeflag=0
@@ -261,7 +265,7 @@ def main():
         
         Timeincrease=datetime.timedelta(seconds=Timeinterval)
         CarTime=CarTime+Timeincrease
-        print(CarTime.strftime("%a %b %H:%M:%S %Z"),"Waypoint",Car.nextwaypoint,"Distance", Distancetonextwaypoint, "Car State:",Car.state)
+        print(CarTime.strftime("%a %b %H:%M:%S"),"Waypoint",Car.nextwaypoint,"Distance", Distancetonextwaypoint, "Car State:",Car.state)
         if Distancetonextwaypoint > 400:
             print("car state:", Car.state, "next Waypoint", Car.nextwaypoint)
             input("stop and look here")
@@ -276,7 +280,17 @@ def main():
     print("Laps:", laps)
     print("Breakdowns:", Breakdown)
     print("Hot pits:", Pits)
-    print(TimeinPits)  
+    print(TimeinPits)
+    
+
+    Summary=open('Summary.txt','w') 
+    i=0
+    while i < len(Logsumary):
+        print(Logsumary[i][0],Logsumary[i][1].strftime("%H:%M:%S"), file=Summary)
+        i+=1
+    Summary.close()
+        
+          
     
 if __name__ == "__main__":
     main()
