@@ -43,7 +43,7 @@ class SolarCar:
         def UpdateLoc(self, latitude, longitude):
             self.lat = latitude
             self.long = longitude
-        def UpdateLoc(self, state):
+        def UpdateState(self, state):
             self.state = state
         def UpdateWayPoint(self, point):
             self.nextwaypoint = point
@@ -69,7 +69,7 @@ def main():
     EnterHotPit=[[33.03925, -97.28287],[33.03807, -97.28330],[33.03744, -97.28346]]
     CarTime=datetime.datetime(2016, 6,1,8,0,0)
     Timeinterval=.25
-    MaxSpeed=18
+    MaxSpeed=26
     MinSpeed=5
     timeflag=0
     RecordInterval=2
@@ -148,7 +148,7 @@ def main():
                     Car.nextwaypoint=0
                     Car.speed=random.randrange(MinSpeed,MaxSpeed,1);
                     laps +=1
-                    Logsumary.append([laps, CarTime])
+                    Logsumary.append([laps, CarTime,"running"])
                     tempa, tempb =AimPoint(TrackPoints[Car.nextwaypoint][0],TrackPoints[Car.nextwaypoint][1],TrackPoints[Car.nextwaypoint][2],TrackPoints[Car.nextwaypoint][3])
                     Waypoint=geo.Location(tempa,tempb)
                     Car.waypointbearing=Bearing(Waypoint,Car.location)
@@ -192,11 +192,12 @@ def main():
                             TimeinPits=TimeinPits+datetime.timedelta(minutes=Waittime) 
                             Restarttime=CarTime+datetime.timedelta(minutes=Waittime)
                             Car.pitflag = 0
+                            Logsumary.append([laps, CarTime,"entered "])
         
         elif (Car.state==4): #hold
             if (CarTime <  Restarttime):
                 print("just sitting in the garage")
-                print(Restarttime-CarTime, "remain")
+                #print(Restarttime-CarTime, "remain")
                 
             elif(CarTime >=Restarttime):
                 Car.state=3
@@ -241,7 +242,7 @@ def main():
                         Car.state=4
                         Pits +=1
                         laps +=1
-                        Logsumary.append([laps, CarTime])
+                        Logsumary.append([laps, CarTime,"entered hot pits"])
                         Waittime=random.randrange(5, 8, 1)
                         TimeinPits=TimeinPits+datetime.timedelta(minutes=Waittime) 
                         Restarttime=CarTime+datetime.timedelta(minutes=Waittime)
@@ -286,7 +287,7 @@ def main():
     Summary=open('Summary.txt','w') 
     i=0
     while i < len(Logsumary):
-        print(Logsumary[i][0],Logsumary[i][1].strftime("%H:%M:%S"), file=Summary)
+        print(Logsumary[i][0],Logsumary[i][1].strftime("%H:%M:%S"), Logsumary([i][2], file=Summary)
         i+=1
     Summary.close()
         
