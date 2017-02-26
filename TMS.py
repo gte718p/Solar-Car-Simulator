@@ -147,6 +147,10 @@ Footer = """
     driverchange:{
     center: {lat:33.03769055, lng: -97.28342853},
     radius: 20
+    },
+    garage:{
+    center: {lat:33.03759161, lng:-97.28215985 },
+    radius: 50
     }
     };
 

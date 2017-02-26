@@ -47,7 +47,7 @@ function initMap() {
 
         
         google.maps.event.addListener(marker, 'dragend', function (evt) {
-        document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';
+        document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(8) + ' Current Lng: ' + evt.latLng.lng().toFixed(8) + '</p>';
         });
         
         google.maps.event.addListener(marker, 'click', function (evt) {
@@ -55,7 +55,7 @@ function initMap() {
              for (j = 0; j < locations.length; j++) {
             E=A[j].getPosition();
             F=B[j].getPosition();
-            G=E.lat().toFixed(5) +', '+ E.lng().toFixed(5) + ', ' + F.lat().toFixed(5) + ', ' + F.lng().toFixed(5) +'<br>' ; 
+            G=E.lat().toFixed(8) +', '+ E.lng().toFixed(8) + ', ' + F.lat().toFixed(8) + ', ' + F.lng().toFixed(8) +'<br>' ; 
             
             C.push(G);       
             }
@@ -68,7 +68,7 @@ function initMap() {
 
         
         
-    var locations = [[33.03892, -97.28329, 33.03901, -97.28347],[33.03845, -97.28370, 33.03851, -97.28389],[33.03753, -97.28406, 33.03755, -97.28425],[33.03623, -97.28449, 33.03625, -97.28469],[33.03597, -97.28451, 33.03599, -97.28468],[33.03532, -97.28444, 33.03529, -97.28463],[33.03502, -97.28421, 33.03501, -97.28460],[33.03428, -97.28416, 33.03424, -97.28443],[33.03401, -97.28410, 33.03396, -97.28428],[33.03349, -97.28377, 33.03341, -97.28396],[33.03312, -97.28336, 33.03296, -97.28348],[33.03278, -97.28266, 33.03265, -97.28274],[33.03276, -97.28190, 33.03260, -97.28188],[33.03288, -97.28129, 33.03275, -97.28114],[33.03325, -97.28065, 33.03314, -97.28044],[33.03374, -97.28012, 33.03368, -97.27986],[33.03437, -97.27976, 33.03433, -97.27953],[33.03633, -97.27912, 33.03631, -97.27889],[33.03778, -97.27862, 33.03772, -97.27840],[33.03851, -97.27852, 33.03851, -97.27836],[33.03908, -97.27863, 33.03919, -97.27847],[33.03957, -97.27884, 33.03968, -97.27870],[33.03989, -97.27914, 33.04002, -97.27899],[33.04024, -97.27961, 33.04038, -97.27954],[33.04044, -97.28030, 33.04060, -97.28026],[33.04047, -97.28093, 33.04061, -97.28097],[33.04042, -97.28129, 33.04056, -97.28135],[33.04028, -97.28171, 33.04036, -97.28183],[33.04007, -97.28208, 33.04017, -97.28221],[33.03985, -97.28231, 33.03997, -97.28252],[33.03951, -97.28260, 33.03965, -97.28289],]; 
+    var locations = [[33.03892, -97.28329, 33.03901, -97.28347],[33.03845, -97.28370, 33.03851, -97.28389],[33.03753, -97.28406, 33.03755, -97.28425],[33.03623, -97.28449, 33.03625, -97.28469],[33.03597, -97.28451, 33.03599, -97.28468],[33.03532, -97.28444, 33.03529, -97.28463],[33.03479, -97.28426, 33.03478, -97.28459],[33.03447, -97.28427, 33.03444, -97.28449],[33.03401, -97.28410, 33.03396, -97.28428],[33.03349, -97.28377, 33.03341, -97.28396],[33.03312, -97.28336, 33.03296, -97.28348],[33.03278, -97.28266, 33.03265, -97.28274],[33.03276, -97.28190, 33.03260, -97.28188],[33.03288, -97.28129, 33.03275, -97.28114],[33.03325, -97.28065, 33.03314, -97.28044],[33.03374, -97.28012, 33.03368, -97.27986],[33.03437, -97.27976, 33.03433, -97.27953],[33.03633, -97.27912, 33.03631, -97.27889],[33.03778, -97.27862, 33.03772, -97.27840],[33.03851, -97.27852, 33.03851, -97.27836],[33.03908, -97.27863, 33.03919, -97.27847],[33.03957, -97.27884, 33.03968, -97.27870],[33.03989, -97.27914, 33.04002, -97.27899],[33.04024, -97.27961, 33.04038, -97.27954],[33.04044, -97.28030, 33.04060, -97.28026],[33.04047, -97.28093, 33.04061, -97.28097],[33.04042, -97.28129, 33.04056, -97.28135],[33.04028, -97.28171, 33.04036, -97.28183],[33.04007, -97.28208, 33.04017, -97.28221],[33.03985, -97.28231, 33.03997, -97.28252],[33.03951, -97.28260, 33.03965, -97.28289],]; 
      var marker, controlline, poly, poly1, i, j;
 
     for (i = 0; i < locations.length; i++) {
@@ -93,6 +93,52 @@ function initMap() {
 
         flightPath.setMap(map);
         };
+                var controlpoint={
+    start:{
+    center: {lat:33.03490233 , lng: -97.28442632},
+    radius: 50
+    },
+    lappoint:{
+    center: {lat: 33.03880806, lng: -97.28352778},
+    radius: 25
+    },
+    trappoint:{
+    center: {lat:33.03790 , lng: -97.28286},
+    radius: 20
+    },
+    driverchange:{
+    center: {lat:33.03769055, lng: -97.28342853},
+    radius: 20
+    },
+    garage:{
+    center: {lat:33.03759161, lng:-97.28215985},
+    radius: 75
+    }
+    };
+
+for (var point in controlpoint) {
+    // Add the circle for this city to the map.
+    var controlcirc = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: controlpoint[point].center,
+      radius: controlpoint[point].radius
+    });
+  }
+
+
+
+      
+      
+      
+      
+      
+      
+      
       }
       
 
@@ -107,11 +153,11 @@ function makemarker(Lat, Lng,tag, i, map){
       });
     
     google.maps.event.addListener(marker, 'dragend', function (evt) {
-    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br> Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';
+    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br> Current Lat: ' + evt.latLng.lat().toFixed(8) + ' Current Lng: ' + evt.latLng.lng().toFixed(8) + '</p>';
         updatemarker(marker, evt);
         });
     google.maps.event.addListener(marker, 'click', function (evt) {
-    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br>Current Lat: ' + evt.latLng.lat().toFixed(5) + ' Current Lng: ' + evt.latLng.lng().toFixed(5) + '</p>';   
+    document.getElementById('current').innerHTML = '<p>Marker: ' + marker.title + '<br>Current Lat: ' + evt.latLng.lat().toFixed(8) + ' Current Lng: ' + evt.latLng.lng().toFixed(8) + '</p>';   
         });
     
     return marker;   
