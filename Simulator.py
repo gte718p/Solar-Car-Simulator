@@ -254,19 +254,19 @@ def main():
       
              
         
-        #creat the outputs    
+        #create the outputs    
         
         timeflag +=Timeinterval
         if (timeflag == RecordInterval):
             outputstring=CarTime.strftime("%a %b %H:%M:%S %Y")
-            print("d90e5bc9f95dc7eb, %s, %s, %s, STOPPED, Cristian Almendariz, 8 Walnut, 6.0, %s, %s"%(outputstring, Car.location.latitude, Car.location.longitude, Car.speed, Car.waypointbearing),  file=Log)
+            print("d90e5bc9f95dc7em, %s, %s, %s, STOPPED, Cristian Almendariz, 21 Shine Runners, 6.0, %s, %s"%(outputstring, Car.location.latitude, Car.location.longitude, Car.speed, Car.waypointbearing),  file=Log)
             print("%s, %s"%(Car.location.latitude,Car.location.longitude) ,file=GPS)
             timeflag=0
         
         
         Timeincrease=datetime.timedelta(seconds=Timeinterval)
         CarTime=CarTime+Timeincrease
-        print(CarTime.strftime("%a %b %H:%M:%S"),"Waypoint",Car.nextwaypoint,"Distance", Distancetonextwaypoint, "Car State:",Car.state)
+        #print(CarTime.strftime("%a %b %H:%M:%S"),"Waypoint",Car.nextwaypoint,"Distance", Distancetonextwaypoint, "Car State:",Car.state)
         if Distancetonextwaypoint > 400:
             print("car state:", Car.state, "next Waypoint", Car.nextwaypoint)
             input("stop and look here")
@@ -287,8 +287,8 @@ def main():
     Summary=open('Summary.txt','w') 
     i=0
     while i < len(Logsumary):
-        print(Logsumary[i][0],Logsumary[i][1].strftime("%H:%M:%S"), Logsumary([i][2], file=Summary)
-        i+=1
+        print(Logsumary[i][0],Logsumary[i][1].strftime("%H:%M:%S"), file=Summary)
+        i=i+1
     Summary.close()
         
           
